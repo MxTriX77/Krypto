@@ -1,0 +1,10 @@
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\bin\Release\Dekrypto.exe.config
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\bin\Release\Dekrypto.exe
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\bin\Release\Dekrypto.pdb
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\bin\Release\RSA.Core.dll
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\bin\Release\RSA.Core.pdb
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\obj\Release\Dekrypto.csprojAssemblyReference.cache
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\obj\Release\Dekrypto.csproj.CoreCompileInputs.cache
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\obj\Release\Dekrypto.csproj.CopyComplete
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\obj\Release\Dekrypto.exe
+C:\Users\MxTriX_\source\repos\Krypto\Dekrypto\obj\Release\Dekrypto.pdb

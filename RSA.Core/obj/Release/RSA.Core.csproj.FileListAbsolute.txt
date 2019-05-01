@@ -1,0 +1,5 @@
+C:\Users\MxTriX_\source\repos\Krypto\RSA.Core\bin\Release\RSA.Core.dll
+C:\Users\MxTriX_\source\repos\Krypto\RSA.Core\bin\Release\RSA.Core.pdb
+C:\Users\MxTriX_\source\repos\Krypto\RSA.Core\obj\Release\RSA.Core.csproj.CoreCompileInputs.cache
+C:\Users\MxTriX_\source\repos\Krypto\RSA.Core\obj\Release\RSA.Core.dll
+C:\Users\MxTriX_\source\repos\Krypto\RSA.Core\obj\Release\RSA.Core.pdb
