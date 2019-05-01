@@ -33,8 +33,6 @@ namespace Krypto
 
                 streamreader.Close();
 
-                encryptedmessage = encryptedmessage.ToUpper();
-
                 List<string> result = RSACore.RSAEncrypt(encryptedmessage, p, q);
 
                 StreamWriter streamwriter = new StreamWriter(OUTPUTPATH);
@@ -42,6 +40,8 @@ namespace Krypto
                 {
                     streamwriter.WriteLine(item);
                 }
+
+
                 streamwriter.Close();
                 RSACore.GetPrivateKey(p, q, out long d, out long n);
                 Console.Write($"PRIVATE KEY (d, n): ({d}, {n})");

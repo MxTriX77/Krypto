@@ -6,12 +6,11 @@ namespace RSA.Core
 {
     public class RSACore
     {
-        private static string default_charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890123456789";
-        private static char[] _alphabet = { };
+        private static string charset = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890123456789!?()'@&%$/\|<>*#^_[]{}`~+=-:;,.";
 
         public static void SetAlphabet(string alphabet)
         {
-            _alphabet = alphabet.ToCharArray();
+            if (alphabet.Length != 0) { charset = alphabet; }
         }
 
         public static void GetPrivateKey(long p, long q, out long d, out long n)
@@ -20,22 +19,18 @@ namespace RSA.Core
             d = Calculate_d((p - 1) * (q - 1));
         }
 
-        private static void CheckAlphabet()
-        {
-            if (_alphabet.Length == 0) { _alphabet = default_charset.ToCharArray(); }
-        }
-
         private static long Calculate_e(long d, long phi)
         {
-            long e = 10;
+            long e = 7;
             while (true)
             {
                 if ((e * d) % phi == 1) { break; } else { e++; };
             }
+
             return e;
         }
 
-        private static long Calculate_d (long phi)
+        private static long Calculate_d(long phi)
         {
             long d = phi - 1;
             for (long i = 2; i <= phi; i++)
@@ -46,6 +41,7 @@ namespace RSA.Core
                     i = 1;
                 }
             }
+
             return d;
         }
 
@@ -57,69 +53,139 @@ namespace RSA.Core
             {
                 if (n % i == 0) { return false; }
             }
+
             return true;
+        }
+
+        private static void Prefix(string needle, int M, int[] LPS)
+        {
+            int i = 1;
+            int length = 0;
+            LPS[0] = 0;
+
+            while (i < M)
+            {
+                if (needle[i] == needle[length])
+                {
+                    length++;
+                    LPS[i] = length;
+                    i++;
+                }
+                else
+                {
+                    if (length != 0)
+                    {
+                        length = LPS[length - 1];
+                    }
+                    else
+                    {
+                        LPS[i] = length;
+                        i++;
+                    }
+                }
+            }
+        }
+
+        private static int KMPSearch(string needle, string haystack)
+        {
+            int M = needle.Length;
+            int N = haystack.Length;
+            int[] lps = new int[M];
+            int j = 0;
+            int result = -1;
+
+            Prefix(needle, M, lps);
+
+            int i = 0;
+            while (i < N)
+            {
+                if (needle[j] == haystack[i])
+                {
+                    j++;
+                    i++;
+                }
+                if (j == M)
+                {
+                    result = i - j;
+                    j = lps[j - 1];
+                }
+
+                else if (i < N && needle[j] != haystack[i])
+                {
+                    if (j != 0)
+                        j = lps[j - 1];
+                    else
+                        i = i + 1;
+                }
+            }
+
+            return result;
         }
 
         public static List<string> RSAEncrypt(string message, long p, long q)
         {
             // If either p or q are not prime numbers, then RSA is not applicable.
             if (!IsPrime(p) && !IsPrime(q)) { return null; }
-
-            long n;
-            long phi;
-            long e;
-            long d;
-
-            CheckAlphabet();
-
-            // Calculating modulo.
-            n = p * q;
-
-            // Calculating Euler's function.
-            phi = (p - 1) * (q - 1);
-
-            // Calculating private exponent.
-            d = Calculate_d(phi);
-
-            // Calculating public exponent.
-            e = Calculate_e(d, phi);
-
-            /* Hence we have 2 pairs of keys:
-                (e, n) - public key
-                (d, n) - private key
-            */
-
-            List<string> result = new List<string>();
-            BigInteger bignum;
-
-            for (int i = 0; i < message.Length; i++)
+            else
             {
-                int index = Array.IndexOf(_alphabet, message[i]);
-                bignum = new BigInteger(index);
-                bignum = BigInteger.Pow(bignum, (int)e);
-                BigInteger n_big = new BigInteger((int)n);
-                bignum %= n_big;
-                result.Add(bignum.ToString());
+                long n;
+                long phi;
+                long e;
+                long d;
+
+                // Calculating modulo.
+                n = p * q;
+
+                // Calculating Euler's function.
+                phi = (p - 1) * (q - 1);
+
+                // Calculating private exponent.
+                d = Calculate_d(phi);
+
+                // Calculating public exponent.
+                e = Calculate_e(d, phi);
+
+                /* Hence we have 2 pairs of keys:
+                    (e, n) - public key
+                    (d, n) - private key
+                */
+
+                List<string> result = new List<string>();
+                BigInteger bignum;
+
+                for (int i = 0; i < message.Length; i++)
+                {
+                    int index = KMPSearch(Char.ToString(message[i]), charset);
+                    bignum = new BigInteger(index);
+
+                    // Encryption: C = M^e ( mod n).
+                    bignum = BigInteger.Pow(bignum, (int)e);
+                    BigInteger n_big = new BigInteger((int)n);
+                    bignum %= n_big;
+                    result.Add(bignum.ToString());
+                }
+                return result;
             }
-            return result;
         }
 
         public static string RSADecrypt(List<string> encryptedmessage, long d, long n)
         {
             string result = "";
-            CheckAlphabet();
             BigInteger bignum;
 
             foreach (string item in encryptedmessage)
             {
                 bignum = new BigInteger(Convert.ToDouble(item));
+
+                // Decryption: M = C^d ( mod n).
                 bignum = BigInteger.Pow(bignum, (int)d);
                 BigInteger n_big = new BigInteger((int)n);
                 bignum %= n_big;
                 int index = Convert.ToInt32(bignum.ToString());
-                result += _alphabet[index].ToString();
+                result += charset[index];
             }
             return result;
         }
+
     }
 }

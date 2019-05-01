@@ -22,7 +22,7 @@ namespace Dekrypto
                 d = Int64.Parse(tokens[0]);
                 n = Int64.Parse(tokens[1]);
 
-                Console.WriteLine("Processing...");
+                Console.WriteLine("\nProcessing...\n");
 
                 List<string> encryptedmessage = new List<string>();
 
