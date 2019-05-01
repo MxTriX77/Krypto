@@ -22,6 +22,8 @@ namespace Dekrypto
                 d = Int64.Parse(tokens[0]);
                 n = Int64.Parse(tokens[1]);
 
+                Console.WriteLine("Processing...");
+
                 List<string> encryptedmessage = new List<string>();
 
                 StreamReader streamreader = new StreamReader(INPUTPATH);

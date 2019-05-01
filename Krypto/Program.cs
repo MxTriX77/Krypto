@@ -22,6 +22,8 @@ namespace Krypto
                 p = Int64.Parse(tokens[0]);
                 q = Int64.Parse(tokens[1]);
 
+                Console.WriteLine("\nProcessing...\n");
+
                 StreamReader streamreader = new StreamReader(INPUTPATH);
 
                 while (!streamreader.EndOfStream)

@@ -14,6 +14,12 @@ namespace RSA.Core
             _alphabet = alphabet.ToCharArray();
         }
 
+        public static void GetPrivateKey(long p, long q, out long d, out long n)
+        {
+            n = p * q;
+            d = Calculate_d((p - 1) * (q - 1));
+        }
+
         private static void CheckAlphabet()
         {
             if (_alphabet.Length == 0) { _alphabet = default_charset.ToCharArray(); }
@@ -43,12 +49,6 @@ namespace RSA.Core
             return d;
         }
 
-        public static void GetPrivateKey(long p, long q, out long d, out long n)
-        {
-            n = p * q;
-            d = Calculate_d((p - 1) * (q - 1));
-        }
-
         private static bool IsPrime(long n)
         {
             if (n < 2) { return false; }
@@ -62,7 +62,7 @@ namespace RSA.Core
 
         public static List<string> RSAEncrypt(string message, long p, long q)
         {
-            // If either p or q are prime numbers, then RSA is not applicable.
+            // If either p or q are not prime numbers, then RSA is not applicable.
             if (!IsPrime(p) && !IsPrime(q)) { return null; }
 
             long n;
