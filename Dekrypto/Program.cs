@@ -7,8 +7,8 @@ namespace Dekrypto
 {
     class Program
     {
-        private static readonly string INPUTPATH = "encryptedmsg.txt";
-        private static readonly string OUTPUTPATH = "decryptedmsg.txt";
+        private static readonly string INPUTPATH = @"msg\encryptedmsg.txt";
+        private static readonly string OUTPUTPATH = @"msg\decryptedmsg.txt";
 
         static void Main(string[] args)
         {

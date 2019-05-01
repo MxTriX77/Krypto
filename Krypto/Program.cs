@@ -7,8 +7,8 @@ namespace Krypto
 {
     class Program
     {
-        private static readonly string INPUTPATH = "msg.txt";
-        private static readonly string OUTPUTPATH = "encryptedmsg.txt";
+        private static readonly string INPUTPATH = @"msg\msg.txt";
+        private static readonly string OUTPUTPATH = @"msg\encryptedmsg.txt";
 
         static void Main(string[] args)
         {
@@ -33,7 +33,7 @@ namespace Krypto
 
                 streamreader.Close();
 
-                List<string> result = RSACore.RSAEncrypt(encryptedmessage, p, q);
+                List<string> result = RSACore.RSAEncrypt(encryptedmessage, p, q, false);
 
                 StreamWriter streamwriter = new StreamWriter(OUTPUTPATH);
                 foreach (string item in result)
@@ -41,10 +41,10 @@ namespace Krypto
                     streamwriter.WriteLine(item);
                 }
 
-
                 streamwriter.Close();
-                RSACore.GetPrivateKey(p, q, out long d, out long n);
-                Console.Write($"PRIVATE KEY (d, n): ({d}, {n})");
+                RSACore.GetEncryptionParameters(p, q, out long n, out long phi, out long d, out long e);
+                Console.WriteLine($"PRIVATE KEY (d, n): ({d}, {n})");
+
                 Console.ReadKey();
             }
             catch

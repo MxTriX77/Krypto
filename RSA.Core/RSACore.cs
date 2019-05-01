@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using KMP.Core;
 
 namespace RSA.Core
 {
     public class RSACore
     {
-        private static string charset = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890123456789!?()'@&%$/\|<>*#^_[]{}`~+=-:;,.";
+        private static string charset = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяЄєҐґІЇїі01234567890123456789!?()'@&%$/\|<>*#^_[]{}`~+=-:;,.";
 
         public static void SetAlphabet(string alphabet)
         {
             if (alphabet.Length != 0) { charset = alphabet; }
         }
 
-        public static void GetPrivateKey(long p, long q, out long d, out long n)
+        public static string GetAlphabet()
+        {
+            return charset;
+        }
+
+        public static void GetEncryptionParameters(long p, long q, out long n, out long phi, out long d, out long e)
         {
             n = p * q;
-            d = Calculate_d((p - 1) * (q - 1));
+            phi = (p - 1) * (q - 1);
+            d = Calculate_d(phi);
+            e = Calculate_e(d, phi);
         }
 
         private static long Calculate_e(long d, long phi)
@@ -57,75 +65,10 @@ namespace RSA.Core
             return true;
         }
 
-        private static void Prefix(string needle, int M, int[] LPS)
+        public static List<string> RSAEncrypt(string message, long p, long q, bool logging)
         {
-            int i = 1;
-            int length = 0;
-            LPS[0] = 0;
-
-            while (i < M)
-            {
-                if (needle[i] == needle[length])
-                {
-                    length++;
-                    LPS[i] = length;
-                    i++;
-                }
-                else
-                {
-                    if (length != 0)
-                    {
-                        length = LPS[length - 1];
-                    }
-                    else
-                    {
-                        LPS[i] = length;
-                        i++;
-                    }
-                }
-            }
-        }
-
-        private static int KMPSearch(string needle, string haystack)
-        {
-            int M = needle.Length;
-            int N = haystack.Length;
-            int[] lps = new int[M];
-            int j = 0;
-            int result = -1;
-
-            Prefix(needle, M, lps);
-
-            int i = 0;
-            while (i < N)
-            {
-                if (needle[j] == haystack[i])
-                {
-                    j++;
-                    i++;
-                }
-                if (j == M)
-                {
-                    result = i - j;
-                    j = lps[j - 1];
-                }
-
-                else if (i < N && needle[j] != haystack[i])
-                {
-                    if (j != 0)
-                        j = lps[j - 1];
-                    else
-                        i = i + 1;
-                }
-            }
-
-            return result;
-        }
-
-        public static List<string> RSAEncrypt(string message, long p, long q)
-        {
-            // If either p or q are not prime numbers, then RSA is not applicable.
-            if (!IsPrime(p) && !IsPrime(q)) { return null; }
+            // If either p or q is not a prime number, then RSA is not applicable.
+            if ((!IsPrime(p) && !IsPrime(q)) || message == "") { return null; }
             else
             {
                 long n;
@@ -135,15 +78,19 @@ namespace RSA.Core
 
                 // Calculating modulo.
                 n = p * q;
+                if (logging == true) { Console.WriteLine($"Modulo:\nN={n}"); }
 
                 // Calculating Euler's function.
                 phi = (p - 1) * (q - 1);
+                if (logging == true) { Console.WriteLine($"Euler's function:\nφ(N)={phi}"); }
 
                 // Calculating private exponent.
                 d = Calculate_d(phi);
+                if (logging == true) { Console.WriteLine($"Private exponent:\nd={d}"); }
 
                 // Calculating public exponent.
                 e = Calculate_e(d, phi);
+                if (logging == true) { Console.WriteLine($"Public exponent:\ne={e}\n-------\nPUBLIC KEY: ({e}, {n})\nPRIVATE KEY: ({d}, {n})"); }
 
                 /* Hence we have 2 pairs of keys:
                     (e, n) - public key
@@ -155,7 +102,7 @@ namespace RSA.Core
 
                 for (int i = 0; i < message.Length; i++)
                 {
-                    int index = KMPSearch(Char.ToString(message[i]), charset);
+                    int index = KMPCore.Search(Char.ToString(message[i]), charset);
                     bignum = new BigInteger(index);
 
                     // Encryption: C = M^e ( mod n).

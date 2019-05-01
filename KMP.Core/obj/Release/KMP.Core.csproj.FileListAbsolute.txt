@@ -1,0 +1,6 @@
+C:\Users\MxTriX_\source\repos\Krypto\KMP.Core\bin\Release\KMP.Core.dll
+C:\Users\MxTriX_\source\repos\Krypto\KMP.Core\bin\Release\KMP.Core.pdb
+C:\Users\MxTriX_\source\repos\Krypto\KMP.Core\obj\Release\KMP.Core.csprojAssemblyReference.cache
+C:\Users\MxTriX_\source\repos\Krypto\KMP.Core\obj\Release\KMP.Core.csproj.CoreCompileInputs.cache
+C:\Users\MxTriX_\source\repos\Krypto\KMP.Core\obj\Release\KMP.Core.dll
+C:\Users\MxTriX_\source\repos\Krypto\KMP.Core\obj\Release\KMP.Core.pdb
