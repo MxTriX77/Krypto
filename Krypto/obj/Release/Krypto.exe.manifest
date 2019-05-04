@@ -61,19 +61,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>gHHL2ZwQIymxQoyYf9ZFX5vAa+wjESimCi6U4dF+Q1I=</dsig:DigestValue>
+        <dsig:DigestValue>VdFJhxZe4Y1ZFsmHSqXVWDVI9oRobrgCd/hM0f2wtis=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RSA.Core.dll" size="6656">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RSA.Core.dll" size="7680">
       <assemblyIdentity name="RSA.Core" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>o4jEPjA1wsesK/tU7fd2Bk4IfgjFvTB3RgYA/uyMA50=</dsig:DigestValue>
+        <dsig:DigestValue>gVKJku2teN3U90tAT8ZRmiVu6nu647svpXQCWRqI41U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 
 namespace Dekrypto
 {
@@ -14,14 +15,15 @@ namespace Dekrypto
         {
             try
             {
-                long d;
-                long n;
+                BigInteger d;
+                BigInteger n;
                 string result;
                 Console.Write("Enter private key (d, n): ");
                 string[] tokens = Console.ReadLine().Split();
-                d = Int64.Parse(tokens[0]);
-                n = Int64.Parse(tokens[1]);
+                d = BigInteger.Parse(tokens[0]);
+                n = BigInteger.Parse(tokens[1]);
 
+                Console.WriteLine($"\n-----\nPRIVATE KEY: ({d}, {n})");
                 Console.WriteLine("\nProcessing...\n");
 
                 List<string> encryptedmessage = new List<string>();

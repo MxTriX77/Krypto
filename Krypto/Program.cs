@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 
 namespace Krypto
 {
@@ -15,12 +16,12 @@ namespace Krypto
             try
             {
                 string encryptedmessage = "";
-                long p;
-                long q;
+                BigInteger p;
+                BigInteger q;
                 Console.Write("Enter p, q: ");
                 string[] tokens = Console.ReadLine().Split();
-                p = Int64.Parse(tokens[0]);
-                q = Int64.Parse(tokens[1]);
+                p = UInt64.Parse(tokens[0]);
+                q = UInt64.Parse(tokens[1]);
 
                 Console.WriteLine("\nProcessing...\n");
 
@@ -33,7 +34,7 @@ namespace Krypto
 
                 streamreader.Close();
 
-                List<string> result = RSACore.RSAEncrypt(encryptedmessage, p, q, false);
+                List<string> result = RSACore.RSAEncrypt(encryptedmessage, p, q, true);
 
                 StreamWriter streamwriter = new StreamWriter(OUTPUTPATH);
                 foreach (string item in result)
@@ -42,8 +43,6 @@ namespace Krypto
                 }
 
                 streamwriter.Close();
-                RSACore.GetEncryptionParameters(p, q, out long n, out long phi, out long d, out long e);
-                Console.WriteLine($"PRIVATE KEY (d, n): ({d}, {n})");
 
                 Console.ReadKey();
             }
@@ -54,3 +53,4 @@ namespace Krypto
         }
     }
 }
+

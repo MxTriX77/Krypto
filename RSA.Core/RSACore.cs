@@ -1,13 +1,14 @@
-﻿using System;
+﻿using KMP.Core;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
-using KMP.Core;
 
 namespace RSA.Core
 {
     public class RSACore
     {
         private static string charset = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяЄєҐґІЇїі01234567890123456789!?()'@&%$/\|<>*#^_[]{}`~+=-:;,.";
+        private static long[] fermatnumbers = { 4294967297, 65537, 257, 17, 5, 3 };
 
         public static void SetAlphabet(string alphabet)
         {
@@ -19,45 +20,71 @@ namespace RSA.Core
             return charset;
         }
 
-        public static void GetEncryptionParameters(long p, long q, out long n, out long phi, out long d, out long e)
+        public static void GetEncryptionParameters(BigInteger p, BigInteger q, out BigInteger n, out BigInteger phi, out BigInteger d, out BigInteger e)
         {
             n = p * q;
             phi = (p - 1) * (q - 1);
-            d = Calculate_d(phi);
-            e = Calculate_e(d, phi);
+            e = Calculate_e(phi);
+            d = Calculate_d(e, phi);
+
         }
 
-        private static long Calculate_e(long d, long phi)
+        private static BigInteger GCD(BigInteger a, BigInteger b)
         {
-            long e = 7;
-            while (true)
+            while (a != 0 && b != 0)
             {
-                if ((e * d) % phi == 1) { break; } else { e++; };
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
             }
 
-            return e;
+            return a == 0 ? b : a;
         }
 
-        private static long Calculate_d(long phi)
+        private static BigInteger ModularInverse(BigInteger a, BigInteger n)
         {
-            long d = phi - 1;
-            for (long i = 2; i <= phi; i++)
+            BigInteger i = n;
+            BigInteger v = 0;
+            BigInteger d = 1;
+
+            while (a > 0)
             {
-                if ((d % i == 0) && (phi % i == 0))
-                {
-                    d--;
-                    i = 1;
-                }
+                BigInteger t = i / a;
+                BigInteger x = a;
+                a = i % x;
+                i = x;
+                x = d;
+                d = v - t * x;
+                v = x;
+            }
+            v %= n;
+            if (v < 0) { v = (v + n) % n; }
+
+            return v;
+        }
+
+        private static BigInteger Calculate_e(BigInteger phi)
+        {
+            int index = 0;
+            while (index < fermatnumbers.Length)
+            {
+                if (fermatnumbers[index] < phi && GCD(fermatnumbers[index], phi) == 1) { break; } else index++;
             }
 
-            return d;
+            return fermatnumbers[index];
         }
 
-        private static bool IsPrime(long n)
+        private static BigInteger Calculate_d(BigInteger e, BigInteger phi)
+        {
+            return ModularInverse(e, phi);
+        }
+
+        private static bool IsPrime(BigInteger n)
         {
             if (n < 2) { return false; }
             if (n == 2) { return true; }
-            for (long i = 2; i < n; i++)
+            for (ulong i = 2; i < n; i++)
             {
                 if (n % i == 0) { return false; }
             }
@@ -65,16 +92,16 @@ namespace RSA.Core
             return true;
         }
 
-        public static List<string> RSAEncrypt(string message, long p, long q, bool logging)
+        public static List<string> RSAEncrypt(string message, BigInteger p, BigInteger q, bool logging)
         {
             // If either p or q is not a prime number, then RSA is not applicable.
             if ((!IsPrime(p) && !IsPrime(q)) || message == "") { return null; }
             else
             {
-                long n;
-                long phi;
-                long e;
-                long d;
+                BigInteger n;
+                BigInteger phi;
+                BigInteger e;
+                BigInteger d;
 
                 // Calculating modulo.
                 n = p * q;
@@ -84,13 +111,13 @@ namespace RSA.Core
                 phi = (p - 1) * (q - 1);
                 if (logging == true) { Console.WriteLine($"Euler's function:\nφ(N)={phi}"); }
 
-                // Calculating private exponent.
-                d = Calculate_d(phi);
-                if (logging == true) { Console.WriteLine($"Private exponent:\nd={d}"); }
-
                 // Calculating public exponent.
-                e = Calculate_e(d, phi);
-                if (logging == true) { Console.WriteLine($"Public exponent:\ne={e}\n-------\nPUBLIC KEY: ({e}, {n})\nPRIVATE KEY: ({d}, {n})"); }
+                e = Calculate_e(phi);
+                if (logging == true) { Console.WriteLine($"Public exponent:\ne={e}"); }
+
+                // Calculating private exponent.
+                d = Calculate_d(e, phi);
+                if (logging == true) { Console.WriteLine($"Private exponent:\nd={d}\n-------\nPUBLIC KEY: ({e}, {n})\nPRIVATE KEY: ({d}, {n})"); }
 
                 /* Hence we have 2 pairs of keys:
                     (e, n) - public key
@@ -98,39 +125,43 @@ namespace RSA.Core
                 */
 
                 List<string> result = new List<string>();
-                BigInteger bignum;
+                BigInteger M;
+                BigInteger Me;
+                BigInteger C;
 
                 for (int i = 0; i < message.Length; i++)
                 {
                     int index = KMPCore.Search(Char.ToString(message[i]), charset);
-                    bignum = new BigInteger(index);
+                    M = new BigInteger(index);
 
-                    // Encryption: C = M^e ( mod n).
-                    bignum = BigInteger.Pow(bignum, (int)e);
-                    BigInteger n_big = new BigInteger((int)n);
-                    bignum %= n_big;
-                    result.Add(bignum.ToString());
+                    // Encryption: C[i] = M[i]^e (mod n).
+                    Me = BigInteger.Pow(M, (int)e);
+                    C = Me % n;
+                    result.Add(C.ToString());
                 }
                 return result;
             }
         }
 
-        public static string RSADecrypt(List<string> encryptedmessage, long d, long n)
+        public static string RSADecrypt(List<string> encryptedmessage, BigInteger d, BigInteger n)
         {
             string result = "";
-            BigInteger bignum;
+            int index;
+            BigInteger C;
+            BigInteger Cd;
+            BigInteger M;
 
             foreach (string item in encryptedmessage)
             {
-                bignum = new BigInteger(Convert.ToDouble(item));
+                C = new BigInteger(Convert.ToDouble(item));
 
-                // Decryption: M = C^d ( mod n).
-                bignum = BigInteger.Pow(bignum, (int)d);
-                BigInteger n_big = new BigInteger((int)n);
-                bignum %= n_big;
-                int index = Convert.ToInt32(bignum.ToString());
-                result += charset[index];
+                // Decryption: M[i] = C[i]^d (mod n).
+                Cd = BigInteger.Pow(C, (int)d);
+                M = Cd % n;
+                index = Convert.ToInt32(M.ToString());
+                result += charset[index].ToString();
             }
+
             return result;
         }
 
