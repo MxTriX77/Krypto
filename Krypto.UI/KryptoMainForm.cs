@@ -1,4 +1,5 @@
-﻿using RSA.Core;
+﻿using Base64.Core;
+using RSA.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace Krypto.UI
     {
         private const string ENCRYPTION_INPUT_PATH = @"msg\msg.txt";
         private const string ENCRYPTION_OUTPUT_PATH = @"msg\encryptedmsg.txt";
-        private const string DECRYPTION_OUTPUT_PATH = @"msg\decryptedmsg.txt";
+        private const string DECRYPTION_OUTPUT_PATH = @"msg\decryptedmsg";
 
         public KryptoMainForm()
         {
@@ -57,6 +58,27 @@ namespace Krypto.UI
             return filename;
         }
 
+        public byte[] ReadBytes(string filepath)
+        {
+            byte[] buffer = null;
+            using (FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read))
+            {
+                buffer = new byte[fs.Length];
+                fs.Read(buffer, 0, (int)fs.Length);
+            }
+            return buffer;
+        }
+
+        public bool WriteBytes(string filepath, byte[] bytearray)
+        {
+            using (var fs = new FileStream(filepath, FileMode.Create, FileAccess.Write))
+            {
+                fs.Write(bytearray, 0, bytearray.Length);
+                return true;
+            }
+
+        }
+
         private void KryptoMainForm_Load(object sender, EventArgs e)
         {
             FileInfo encryptioninput = new FileInfo(ENCRYPTION_INPUT_PATH);
@@ -64,7 +86,7 @@ namespace Krypto.UI
             FileInfo deryptioninput = new FileInfo(ENCRYPTION_OUTPUT_PATH);
             FileInfo decryptionoutput = new FileInfo(DECRYPTION_OUTPUT_PATH);
             EncryptInputFileField.Text = encryptioninput.FullName;
-            OutputFileField.Text = encryptionoutput.FullName;
+            EncryptOutputFileField.Text = encryptionoutput.FullName;
             DecryptInputFileField.Text = deryptioninput.FullName;
             DecryptOutputFileField.Text = decryptionoutput.FullName;
             AlphabetField1.Text = RSACore.GetAlphabet();
@@ -83,50 +105,6 @@ namespace Krypto.UI
             RSACore.SetAlphabet(AlphabetField1.Text);
         }
 
-        private void EncryptButton_Click(object sender, EventArgs evt)
-        {
-            try
-            {
-                string encryptedmessage = "";
-                BigInteger e = BigInteger.Parse(PublicKeyE.Text);
-                BigInteger n = BigInteger.Parse(PublicKeyN.Text);
-
-                if ((PrivateKeyD.Text == "") || PrivateKeyN.Text == "")
-                {
-                    MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-                else if (!IsNumeric(PrivateKeyD.Text) || !IsNumeric(PrivateKeyN.Text))
-                {
-                    MessageBox.Show("Non-numeric input detected! Please double-check and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-                else
-                {
-                    StreamReader streamreader = new StreamReader(ENCRYPTION_INPUT_PATH);
-
-                    while (!streamreader.EndOfStream)
-                    {
-                        encryptedmessage += streamreader.ReadLine();
-                    }
-
-                    streamreader.Close();
-
-                    List<string> result = RSACore.RSAEncrypt(encryptedmessage, e, n);
-
-                    StreamWriter streamwriter = new StreamWriter(ENCRYPTION_OUTPUT_PATH);
-                    foreach (string item in result)
-                    {
-                        streamwriter.WriteLine(item);
-                    }
-
-                    streamwriter.Close();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
-
         private void InputFileSelectionButton_Click(object sender, EventArgs e)
         {
             EncryptInputFileField.Text = SelectFile();
@@ -134,53 +112,17 @@ namespace Krypto.UI
 
         private void OutputFileSelectionButton_Click(object sender, EventArgs e)
         {
-            OutputFileField.Text = SelectFile();
+            EncryptOutputFileField.Text = SelectFile();
         }
 
-        private void DecryptButton_Click(object sender, EventArgs e)
+        private void InputSelect_Click(object sender, EventArgs e)
         {
-            try
-            {
-                BigInteger p = BigInteger.Parse(PrivateKeyD.Text);
-                BigInteger q = BigInteger.Parse(PrivateKeyN.Text);
+            DecryptInputFileField.Text = SelectFile();
+        }
 
-                if ((PrivateKeyD.Text == "") || PrivateKeyN.Text == "")
-                {
-                    MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-                else if (!IsNumeric(PrivateKeyD.Text) || !IsNumeric(PrivateKeyN.Text))
-                {
-                    MessageBox.Show("Non-numeric input detected! Please double-check and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-                else
-                {
-                    string decryptedmessage;
-                    BigInteger d = BigInteger.Parse(PrivateKeyD.Text);
-                    BigInteger n = BigInteger.Parse(PrivateKeyN.Text);
-
-                    List<string> encryptedmessage = new List<string>();
-
-                    StreamReader streamreader = new StreamReader(ENCRYPTION_OUTPUT_PATH);
-
-                    while (!streamreader.EndOfStream)
-                    {
-                        encryptedmessage.Add(streamreader.ReadLine());
-                    }
-                    streamreader.Close();
-
-                    decryptedmessage = RSACore.RSADecrypt(encryptedmessage, d, n);
-
-                    StreamWriter streamwriter = new StreamWriter(DECRYPTION_OUTPUT_PATH);
-                    streamwriter.WriteLine(decryptedmessage);
-                    streamwriter.Close();
-                }
-
-            }
-            catch
-            {
-                MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-
+        private void OutputSelect_Click(object sender, EventArgs e)
+        {
+            DecryptOutputFileField.Text = SelectFile();
         }
 
         private void PublicKeyE_KeyPress(object sender, KeyPressEventArgs e)
@@ -202,5 +144,95 @@ namespace Krypto.UI
         {
             e.Handled = IsNumericInput(e);
         }
+
+        private void EncryptButton_Click(object sender, EventArgs evt)
+        {
+             try
+            {
+            string encryptedmessage = "";
+            BigInteger e = BigInteger.Parse(PublicKeyE.Text);
+            BigInteger n = BigInteger.Parse(PublicKeyN.Text);
+
+            if ((PublicKeyE.Text == "") || PublicKeyN.Text == "")
+            {
+                MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (!IsNumeric(PrivateKeyD.Text) || !IsNumeric(PrivateKeyN.Text))
+            {
+                MessageBox.Show("Non-numeric input detected! Please double-check and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                Base64Encoder b64 = new Base64Encoder('+', '/', true);
+                encryptedmessage = b64.ToBase(ReadBytes(EncryptInputFileField.Text));
+
+                List<string> result = RSACore.RSAEncrypt(encryptedmessage, e, n);
+
+                StreamWriter streamwriter = new StreamWriter(EncryptOutputFileField.Text);
+                foreach (string item in result)
+                {
+                    streamwriter.WriteLine(item);
+                }
+
+                streamwriter.Close();
+            }
+             }
+           catch
+             {
+                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+             }
+        }
+
+        private void DecryptButton_Click(object sender, EventArgs e)
+        {
+             try
+            {
+            BigInteger p = BigInteger.Parse(PrivateKeyD.Text);
+            BigInteger q = BigInteger.Parse(PrivateKeyN.Text);
+
+            if ((PrivateKeyD.Text == "") || PrivateKeyN.Text == "")
+            {
+                MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (!IsNumeric(PrivateKeyD.Text) || !IsNumeric(PrivateKeyN.Text))
+            {
+                MessageBox.Show("Non-numeric input detected! Please double-check and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                byte[] bytes;
+                string decryptedb64;
+                string decryptedmessage;
+                BigInteger d = BigInteger.Parse(PrivateKeyD.Text);
+                BigInteger n = BigInteger.Parse(PrivateKeyN.Text);
+
+                List<string> encryptedmessage = new List<string>();
+
+                StreamReader streamreader = new StreamReader(DecryptInputFileField.Text);
+
+                while (!streamreader.EndOfStream)
+                {
+                    encryptedmessage.Add(streamreader.ReadLine());
+                }
+                streamreader.Close();
+
+                decryptedb64 = RSACore.RSADecrypt(encryptedmessage, d, n);
+
+                Base64Encoder b64 = new Base64Encoder('+', '/', true);
+
+                bytes = b64.FromBase(decryptedb64);
+
+                WriteBytes(DecryptOutputFileField.Text, bytes);
+
+            }
+
+             }
+             catch
+             {
+                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+             }
+
+        }
+
     }
 }

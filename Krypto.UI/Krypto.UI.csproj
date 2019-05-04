@@ -110,6 +110,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Base64.Core\Base64.Core.csproj">
+      <Project>{65a406b9-f890-4794-9534-2ded5ffd366e}</Project>
+      <Name>Base64.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RSA.Core\RSA.Core.csproj">
       <Project>{bfb6cd0f-b4ae-481e-b96e-3adbdd3624d0}</Project>
       <Name>RSA.Core</Name>

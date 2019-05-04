@@ -40,7 +40,7 @@
             this.OutputFileSelectionButton = new System.Windows.Forms.Button();
             this.InputFileSelectionButton = new System.Windows.Forms.Button();
             this.OutputFileLabel = new System.Windows.Forms.Label();
-            this.OutputFileField = new System.Windows.Forms.TextBox();
+            this.EncryptOutputFileField = new System.Windows.Forms.TextBox();
             this.EncryptInputFileField = new System.Windows.Forms.TextBox();
             this.InputFileLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -85,7 +85,7 @@
             this.tabPage1.Controls.Add(this.OutputFileSelectionButton);
             this.tabPage1.Controls.Add(this.InputFileSelectionButton);
             this.tabPage1.Controls.Add(this.OutputFileLabel);
-            this.tabPage1.Controls.Add(this.OutputFileField);
+            this.tabPage1.Controls.Add(this.EncryptOutputFileField);
             this.tabPage1.Controls.Add(this.EncryptInputFileField);
             this.tabPage1.Controls.Add(this.InputFileLabel);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -190,19 +190,17 @@
             this.OutputFileLabel.TabIndex = 9;
             this.OutputFileLabel.Text = "Output file:";
             // 
-            // OutputFileField
+            // EncryptOutputFileField
             // 
-            this.OutputFileField.Location = new System.Drawing.Point(7, 79);
-            this.OutputFileField.Name = "OutputFileField";
-            this.OutputFileField.ReadOnly = true;
-            this.OutputFileField.Size = new System.Drawing.Size(524, 20);
-            this.OutputFileField.TabIndex = 8;
+            this.EncryptOutputFileField.Location = new System.Drawing.Point(7, 79);
+            this.EncryptOutputFileField.Name = "EncryptOutputFileField";
+            this.EncryptOutputFileField.Size = new System.Drawing.Size(524, 20);
+            this.EncryptOutputFileField.TabIndex = 8;
             // 
             // EncryptInputFileField
             // 
             this.EncryptInputFileField.Location = new System.Drawing.Point(7, 26);
             this.EncryptInputFileField.Name = "EncryptInputFileField";
-            this.EncryptInputFileField.ReadOnly = true;
             this.EncryptInputFileField.Size = new System.Drawing.Size(524, 20);
             this.EncryptInputFileField.TabIndex = 7;
             // 
@@ -318,6 +316,7 @@
             this.OutputSelect.TabIndex = 23;
             this.OutputSelect.Text = "...";
             this.OutputSelect.UseVisualStyleBackColor = true;
+            this.OutputSelect.Click += new System.EventHandler(this.OutputSelect_Click);
             // 
             // InputSelect
             // 
@@ -327,12 +326,12 @@
             this.InputSelect.TabIndex = 22;
             this.InputSelect.Text = "...";
             this.InputSelect.UseVisualStyleBackColor = true;
+            this.InputSelect.Click += new System.EventHandler(this.InputSelect_Click);
             // 
             // DecryptOutputFileField
             // 
             this.DecryptOutputFileField.Location = new System.Drawing.Point(7, 79);
             this.DecryptOutputFileField.Name = "DecryptOutputFileField";
-            this.DecryptOutputFileField.ReadOnly = true;
             this.DecryptOutputFileField.Size = new System.Drawing.Size(524, 20);
             this.DecryptOutputFileField.TabIndex = 21;
             // 
@@ -340,7 +339,6 @@
             // 
             this.DecryptInputFileField.Location = new System.Drawing.Point(7, 26);
             this.DecryptInputFileField.Name = "DecryptInputFileField";
-            this.DecryptInputFileField.ReadOnly = true;
             this.DecryptInputFileField.Size = new System.Drawing.Size(524, 20);
             this.DecryptInputFileField.TabIndex = 20;
             // 
@@ -382,7 +380,7 @@
         private System.Windows.Forms.Button OutputFileSelectionButton;
         private System.Windows.Forms.Button InputFileSelectionButton;
         private System.Windows.Forms.Label OutputFileLabel;
-        private System.Windows.Forms.TextBox OutputFileField;
+        private System.Windows.Forms.TextBox EncryptOutputFileField;
         private System.Windows.Forms.TextBox EncryptInputFileField;
         private System.Windows.Forms.Label InputFileLabel;
         private System.Windows.Forms.TextBox AlphabetField1;

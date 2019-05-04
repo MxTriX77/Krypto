@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyManager.UI", "KeyManager
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypto.UI", "Krypto.UI\Krypto.UI.csproj", "{E51FCD60-A78A-4F5E-97DD-37D5230DACA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base64.Core", "Base64.Core\Base64.Core.csproj", "{65A406B9-F890-4794-9534-2DED5FFD366E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{E51FCD60-A78A-4F5E-97DD-37D5230DACA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E51FCD60-A78A-4F5E-97DD-37D5230DACA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E51FCD60-A78A-4F5E-97DD-37D5230DACA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65A406B9-F890-4794-9534-2DED5FFD366E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65A406B9-F890-4794-9534-2DED5FFD366E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65A406B9-F890-4794-9534-2DED5FFD366E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65A406B9-F890-4794-9534-2DED5FFD366E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
