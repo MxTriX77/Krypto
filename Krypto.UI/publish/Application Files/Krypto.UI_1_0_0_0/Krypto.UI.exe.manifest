@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Krypto.UI.exe" version="1.0.0.0" publicKeyToken="98ff7b81b413fbbd" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Krypto.UI" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Krypto.UI.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KMP.Core.dll" size="4608">
+      <assemblyIdentity name="KMP.Core" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>2ZEaBqNsoSElucLukkb8nnnGtETysFI+0u0nvwWMJGE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Krypto.UI.exe" size="16880">
+      <assemblyIdentity name="Krypto.UI" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>I3nPZwjBts4vbcThx6AB3qeKTm40euheOF78q4V8wn4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RSA.Core.dll" size="7168">
+      <assemblyIdentity name="RSA.Core" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>ryxVc+vQuwRa3z0hDsummfzziE/7XkBjSOu3NlAP+HM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Krypto.UI.exe.config" size="341">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>iJ+UCvlqGL4Z3GlexWRprI0es8Jn4CkGUOtJJ5pkv7o=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-KET313U\MxTriX_" issuerKeyHash="0dadf12c469a9f65823ccc218ab0e1c001ad22f6" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>w/vMWqgo4AEeNXfYcN2kpiUv4cYxWY+BipKPCXkVlmo=</DigestValue></Reference></SignedInfo><SignatureValue>fV9N1ijkqCiVTkOTc1JTXpy+oq+2GlU+53u+PixHXhyos0gmMcgFvQIIDhQ0eVKGfP44uefaRTVpi3eUJCRue1qEj+j0tTxOBOg9zoB0ErGdajtMGl3X5IKiv5qrNADcRg81m9NoMzKb7jJmP8kgshYsNSdK/eGftykbzv2gbvk=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>6MdTx+ebaqFuaOmwVqtY2h6YlukGWV4WAo+D2djUVWts/3DUCma7WvEB8xkskO3h4Zz0bVvmo1Aw1SJifmjZ7nubhASXZ+hJsTHbuZK1DT2Jyke026NVZ+KlsIpJKCyMo2JonqFg+ciThfj1+gBVpZG9e5fKAFNbisH5ipPyWvk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="6a961579098f928a818f5931c6e12f25a6a4dd70d877351e01e028a85accfbc3" Description="" Url=""><as:assemblyIdentity name="Krypto.UI.exe" version="1.0.0.0" publicKeyToken="98ff7b81b413fbbd" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-KET313U\MxTriX_</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>vZUd8VSf0YfqdmqfelJ2qPJTplI//NZ0tdyA6VS5LgA=</DigestValue></Reference></SignedInfo><SignatureValue>5DnvrESIRM8rSf5y7a1nfIgF9O4U5D/udX2892vADdirgTfPj5Chc6COze/7fSmEaO0jWtVoBlQNjTSdhLpNFFAMN9XZOXhSlJhMWX29MYVduhGx5Cja6fS1ug699abmOKeT4fUMWKD48QCU146bOYAKLpPo7bfqGvKLmsyPa64=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>6MdTx+ebaqFuaOmwVqtY2h6YlukGWV4WAo+D2djUVWts/3DUCma7WvEB8xkskO3h4Zz0bVvmo1Aw1SJifmjZ7nubhASXZ+hJsTHbuZK1DT2Jyke026NVZ+KlsIpJKCyMo2JonqFg+ciThfj1+gBVpZG9e5fKAFNbisH5ipPyWvk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB9TCCAV6gAwIBAgIQMDHcsGGOkL9OwSF/7ccSOzANBgkqhkiG9w0BAQsFADA5MTcwNQYDVQQDHi4ARABFAFMASwBUAE8AUAAtAEsARQBUADMAMQAzAFUAXABNAHgAVAByAGkAWABfMB4XDTE5MDUwNDE3MjAxOVoXDTIwMDUwMzIzMjAxOVowOTE3MDUGA1UEAx4uAEQARQBTAEsAVABPAFAALQBLAEUAVAAzADEAMwBVAFwATQB4AFQAcgBpAFgAXzCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA6MdTx+ebaqFuaOmwVqtY2h6YlukGWV4WAo+D2djUVWts/3DUCma7WvEB8xkskO3h4Zz0bVvmo1Aw1SJifmjZ7nubhASXZ+hJsTHbuZK1DT2Jyke026NVZ+KlsIpJKCyMo2JonqFg+ciThfj1+gBVpZG9e5fKAFNbisH5ipPyWvkCAwEAATANBgkqhkiG9w0BAQsFAAOBgQA9mY08ZqqUCl5LdwVJCY4ZiIgEya0lHAL3TGotGAwo4EJiX1eIn5eJt1uKwDBYbduAQOB3GyWzWk71TTcdkTvl7pPz5QpisfXCIxKe10V4ayPnuP+7BatFcYJMCcFDMO8QVltrOwJHyRy0LIDK8avX9ZPJBP/HdIavtL0D9PxaCg==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

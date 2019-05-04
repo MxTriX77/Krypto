@@ -10,24 +10,6 @@ namespace RSA.Core
         private static string charset = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяЄєҐґІЇїі01234567890123456789!?()'@&%$/\|<>*#^_[]{}`~+=-:;,.";
         private static long[] fermatnumbers = { 4294967297, 65537, 257, 17, 5, 3 };
 
-        public static void SetAlphabet(string alphabet)
-        {
-            if (alphabet.Length != 0) { charset = alphabet; }
-        }
-
-        public static string GetAlphabet()
-        {
-            return charset;
-        }
-
-        public static void GetEncryptionParameters(BigInteger p, BigInteger q, out BigInteger n, out BigInteger phi, out BigInteger d, out BigInteger e)
-        {
-            n = p * q;
-            phi = (p - 1) * (q - 1);
-            e = Calculate_e(phi);
-            d = Calculate_d(e, phi);
-        }
-
         private static BigInteger GCD(BigInteger a, BigInteger b)
         {
             while (a != 0 && b != 0)
@@ -79,7 +61,7 @@ namespace RSA.Core
             return ModularInverse(e, phi);
         }
 
-        private static bool IsPrime(BigInteger n)
+        public static bool IsPrime(BigInteger n)
         {
             if (n < 2) { return false; }
             if (n == 2) { return true; }
@@ -111,6 +93,24 @@ namespace RSA.Core
                 (e, n) - public key
                 (d, n) - private key
              */
+        }
+
+        public static void SetAlphabet(string alphabet)
+        {
+            if (alphabet.Length != 0) { charset = alphabet; }
+        }
+
+        public static string GetAlphabet()
+        {
+            return charset;
+        }
+
+        public static void GetEncryptionParameters(BigInteger p, BigInteger q, out BigInteger n, out BigInteger phi, out BigInteger d, out BigInteger e)
+        {
+            n = p * q;
+            phi = (p - 1) * (q - 1);
+            e = Calculate_e(phi);
+            d = Calculate_d(e, phi);
         }
 
         public static List<string> RSAEncrypt(string message, BigInteger e, BigInteger n)
