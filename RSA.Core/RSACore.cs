@@ -26,7 +26,6 @@ namespace RSA.Core
             phi = (p - 1) * (q - 1);
             e = Calculate_e(phi);
             d = Calculate_d(e, phi);
-
         }
 
         private static BigInteger GCD(BigInteger a, BigInteger b)
@@ -92,38 +91,34 @@ namespace RSA.Core
             return true;
         }
 
-        public static List<string> RSAEncrypt(string message, BigInteger p, BigInteger q, bool logging)
+        public static void GenerateKeys(BigInteger p, BigInteger q, out BigInteger e, out BigInteger d, out BigInteger n)
+        {
+            BigInteger phi;
+
+            // Calculating modulo.
+            n = p * q;
+
+            // Calculating Euler's function.
+            phi = (p - 1) * (q - 1);
+
+            // Calculating public exponent.
+            e = Calculate_e(phi);
+
+            // Calculating private exponent.
+            d = Calculate_d(e, phi);
+
+            /* Hence we have 2 pairs of keys:
+                (e, n) - public key
+                (d, n) - private key
+             */
+        }
+
+        public static List<string> RSAEncrypt(string message, BigInteger e, BigInteger n)
         {
             // If either p or q is not a prime number, then RSA is not applicable.
-            if ((!IsPrime(p) && !IsPrime(q)) || message == "") { return null; }
+            if ((!IsPrime(e) && !IsPrime(e)) || message == "") { return null; }
             else
             {
-                BigInteger n;
-                BigInteger phi;
-                BigInteger e;
-                BigInteger d;
-
-                // Calculating modulo.
-                n = p * q;
-                if (logging == true) { Console.WriteLine($"Modulo:\nN={n}"); }
-
-                // Calculating Euler's function.
-                phi = (p - 1) * (q - 1);
-                if (logging == true) { Console.WriteLine($"Euler's function:\nφ(N)={phi}"); }
-
-                // Calculating public exponent.
-                e = Calculate_e(phi);
-                if (logging == true) { Console.WriteLine($"Public exponent:\ne={e}"); }
-
-                // Calculating private exponent.
-                d = Calculate_d(e, phi);
-                if (logging == true) { Console.WriteLine($"Private exponent:\nd={d}\n-------\nPUBLIC KEY: ({e}, {n})\nPRIVATE KEY: ({d}, {n})"); }
-
-                /* Hence we have 2 pairs of keys:
-                    (e, n) - public key
-                    (d, n) - private key
-                */
-
                 List<string> result = new List<string>();
                 BigInteger M;
                 BigInteger Me;

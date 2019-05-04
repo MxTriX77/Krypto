@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dekrypto", "Dekrypto\Dekryp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMP.Core", "KMP.Core\KMP.Core.csproj", "{6E1D39EA-9499-42F2-90FA-B174114529F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyManager", "KeyManager\KeyManager.csproj", "{49E52BF4-5F91-467E-AB31-4B3B22EA3A11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{6E1D39EA-9499-42F2-90FA-B174114529F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E1D39EA-9499-42F2-90FA-B174114529F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E1D39EA-9499-42F2-90FA-B174114529F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E52BF4-5F91-467E-AB31-4B3B22EA3A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E52BF4-5F91-467E-AB31-4B3B22EA3A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E52BF4-5F91-467E-AB31-4B3B22EA3A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E52BF4-5F91-467E-AB31-4B3B22EA3A11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
