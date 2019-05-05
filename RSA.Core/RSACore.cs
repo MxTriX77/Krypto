@@ -113,7 +113,7 @@ namespace RSA.Core
             d = Calculate_d(e, phi);
         }
 
-        public static List<string> RSAEncrypt(string message, BigInteger e, BigInteger n)
+        public static List<string> Encrypt(string message, BigInteger e, BigInteger n)
         {
             // If either p or q is not a prime number, then RSA is not applicable.
             if ((!IsPrime(e) && !IsPrime(e)) || message == "") { return null; }
@@ -138,7 +138,7 @@ namespace RSA.Core
             }
         }
 
-        public static string RSADecrypt(List<string> encryptedmessage, BigInteger d, BigInteger n)
+        public static string Decrypt(List<string> encryptedmessage, BigInteger d, BigInteger n)
         {
             string result = "";
             int index;

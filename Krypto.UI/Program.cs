@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Krypto.UI
@@ -14,9 +12,34 @@ namespace Krypto.UI
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new KryptoMainForm());
+            String missinglibs = "";
+            bool missingflag = false;
+
+            if (!File.Exists(@"lib\RSA.Core.dll"))
+            {
+                missinglibs += "\nRSA.Core.dll";
+                missingflag = true;
+            }
+
+            if (!File.Exists(@"lib\KMP.Core.dll"))
+            {
+                missinglibs += "\nKMP.Core.dll";
+                missingflag = true;
+            }
+
+            if (!File.Exists(@"lib\Base64.Core.dll"))
+            {
+                missinglibs += "\nBase64.Core.dll";
+                missingflag = true;
+            }
+
+            if (missingflag) { MessageBox.Show($"The following core libraries are missing: {missinglibs}", "Initialization error!", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new KryptoMainForm());
+            }
         }
     }
 }
