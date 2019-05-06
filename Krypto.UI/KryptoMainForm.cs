@@ -161,7 +161,7 @@ namespace Krypto.UI
                     Base64Encoder b64 = new Base64Encoder('+', '/', true);
                     encryptedmessage = b64.ToBase(ReadBytes(EncryptInputFileField.Text));
 
-                    List<string> result = RSACore.RSAEncrypt(encryptedmessage, e, n);
+                    List<string> result = RSACore.Encrypt(encryptedmessage, e, n);
 
                     StreamWriter streamwriter = new StreamWriter(EncryptOutputFileField.Text);
                     foreach (string item in result)
@@ -210,7 +210,7 @@ namespace Krypto.UI
                     }
                     streamreader.Close();
 
-                    decryptedmessage = RSACore.RSADecrypt(encryptedmessage, d, n);
+                    decryptedmessage = RSACore.Decrypt(encryptedmessage, d, n);
 
                     Base64Encoder b64 = new Base64Encoder('+', '/', true);
 
