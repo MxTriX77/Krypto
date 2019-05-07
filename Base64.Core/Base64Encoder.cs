@@ -8,6 +8,8 @@
         public readonly char SlashChar;
 
         public static readonly Base64Encoder Default = new Base64Encoder('+', '/', true);
+        public static readonly Base64Encoder DefaultNoPadding = new Base64Encoder('+', '/', false);
+        public static readonly Base64Encoder FileEncoding = new Base64Encoder('+', '-', false);
 
         public Base64Encoder(char plusChar, char slashChar, bool paddingEnabled)
             : base((CharacterSetBase + plusChar + slashChar).ToCharArray(), paddingEnabled)

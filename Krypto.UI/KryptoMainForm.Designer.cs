@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.EncB64 = new System.Windows.Forms.CheckBox();
             this.EncryptButton = new System.Windows.Forms.Button();
             this.PublicKeyN = new System.Windows.Forms.TextBox();
             this.PublicKeyE = new System.Windows.Forms.TextBox();
@@ -44,6 +46,7 @@
             this.EncryptInputFileField = new System.Windows.Forms.TextBox();
             this.InputFileLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.DecB64 = new System.Windows.Forms.CheckBox();
             this.OutputLabel = new System.Windows.Forms.Label();
             this.DecryptButton = new System.Windows.Forms.Button();
             this.PrivateKeyN = new System.Windows.Forms.TextBox();
@@ -58,6 +61,7 @@
             this.DecryptInputFileField = new System.Windows.Forms.TextBox();
             this.InputLabel = new System.Windows.Forms.Label();
             this.SelectFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.HintTip = new System.Windows.Forms.ToolTip(this.components);
             this.TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -75,6 +79,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.EncB64);
             this.tabPage1.Controls.Add(this.EncryptButton);
             this.tabPage1.Controls.Add(this.PublicKeyN);
             this.tabPage1.Controls.Add(this.PublicKeyE);
@@ -96,9 +101,20 @@
             this.tabPage1.Text = "Encryption";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // EncB64
+            // 
+            this.EncB64.AutoSize = true;
+            this.EncB64.Location = new System.Drawing.Point(7, 162);
+            this.EncB64.Name = "EncB64";
+            this.EncB64.Size = new System.Drawing.Size(383, 17);
+            this.EncB64.TabIndex = 19;
+            this.EncB64.Text = "Base64 (important for binary files and useful for texts with vast character set)";
+            this.EncB64.UseVisualStyleBackColor = true;
+            this.EncB64.CheckedChanged += new System.EventHandler(this.EncB64_CheckedChanged);
+            // 
             // EncryptButton
             // 
-            this.EncryptButton.Location = new System.Drawing.Point(7, 240);
+            this.EncryptButton.Location = new System.Drawing.Point(7, 242);
             this.EncryptButton.Name = "EncryptButton";
             this.EncryptButton.Size = new System.Drawing.Size(557, 26);
             this.EncryptButton.TabIndex = 18;
@@ -108,7 +124,7 @@
             // 
             // PublicKeyN
             // 
-            this.PublicKeyN.Location = new System.Drawing.Point(284, 209);
+            this.PublicKeyN.Location = new System.Drawing.Point(284, 215);
             this.PublicKeyN.Name = "PublicKeyN";
             this.PublicKeyN.Size = new System.Drawing.Size(280, 20);
             this.PublicKeyN.TabIndex = 17;
@@ -116,7 +132,7 @@
             // 
             // PublicKeyE
             // 
-            this.PublicKeyE.Location = new System.Drawing.Point(7, 209);
+            this.PublicKeyE.Location = new System.Drawing.Point(7, 215);
             this.PublicKeyE.Name = "PublicKeyE";
             this.PublicKeyE.Size = new System.Drawing.Size(275, 20);
             this.PublicKeyE.TabIndex = 16;
@@ -125,7 +141,7 @@
             // PublicKeyLabel
             // 
             this.PublicKeyLabel.AutoSize = true;
-            this.PublicKeyLabel.Location = new System.Drawing.Point(256, 190);
+            this.PublicKeyLabel.Location = new System.Drawing.Point(256, 196);
             this.PublicKeyLabel.Name = "PublicKeyLabel";
             this.PublicKeyLabel.Size = new System.Drawing.Size(56, 13);
             this.PublicKeyLabel.TabIndex = 15;
@@ -134,7 +150,7 @@
             // GUISeparator
             // 
             this.GUISeparator.AutoSize = true;
-            this.GUISeparator.Location = new System.Drawing.Point(6, 168);
+            this.GUISeparator.Location = new System.Drawing.Point(6, 176);
             this.GUISeparator.Name = "GUISeparator";
             this.GUISeparator.Size = new System.Drawing.Size(559, 13);
             this.GUISeparator.TabIndex = 14;
@@ -215,6 +231,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.DecB64);
             this.tabPage2.Controls.Add(this.OutputLabel);
             this.tabPage2.Controls.Add(this.DecryptButton);
             this.tabPage2.Controls.Add(this.PrivateKeyN);
@@ -236,6 +253,17 @@
             this.tabPage2.Text = "Decryption";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // DecB64
+            // 
+            this.DecB64.AutoSize = true;
+            this.DecB64.Location = new System.Drawing.Point(7, 162);
+            this.DecB64.Name = "DecB64";
+            this.DecB64.Size = new System.Drawing.Size(383, 17);
+            this.DecB64.TabIndex = 32;
+            this.DecB64.Text = "Base64 (important for binary files and useful for texts with vast character set)";
+            this.DecB64.UseVisualStyleBackColor = true;
+            this.DecB64.CheckedChanged += new System.EventHandler(this.DecB64_CheckedChanged);
+            // 
             // OutputLabel
             // 
             this.OutputLabel.AutoSize = true;
@@ -247,7 +275,7 @@
             // 
             // DecryptButton
             // 
-            this.DecryptButton.Location = new System.Drawing.Point(7, 240);
+            this.DecryptButton.Location = new System.Drawing.Point(7, 242);
             this.DecryptButton.Name = "DecryptButton";
             this.DecryptButton.Size = new System.Drawing.Size(557, 26);
             this.DecryptButton.TabIndex = 30;
@@ -257,7 +285,7 @@
             // 
             // PrivateKeyN
             // 
-            this.PrivateKeyN.Location = new System.Drawing.Point(284, 209);
+            this.PrivateKeyN.Location = new System.Drawing.Point(284, 215);
             this.PrivateKeyN.Name = "PrivateKeyN";
             this.PrivateKeyN.Size = new System.Drawing.Size(280, 20);
             this.PrivateKeyN.TabIndex = 29;
@@ -265,7 +293,7 @@
             // 
             // PrivateKeyD
             // 
-            this.PrivateKeyD.Location = new System.Drawing.Point(7, 209);
+            this.PrivateKeyD.Location = new System.Drawing.Point(7, 215);
             this.PrivateKeyD.Name = "PrivateKeyD";
             this.PrivateKeyD.Size = new System.Drawing.Size(275, 20);
             this.PrivateKeyD.TabIndex = 28;
@@ -274,7 +302,7 @@
             // PrivateKeyLabel
             // 
             this.PrivateKeyLabel.AutoSize = true;
-            this.PrivateKeyLabel.Location = new System.Drawing.Point(253, 190);
+            this.PrivateKeyLabel.Location = new System.Drawing.Point(253, 196);
             this.PrivateKeyLabel.Name = "PrivateKeyLabel";
             this.PrivateKeyLabel.Size = new System.Drawing.Size(60, 13);
             this.PrivateKeyLabel.TabIndex = 27;
@@ -283,7 +311,7 @@
             // GUISeparator2
             // 
             this.GUISeparator2.AutoSize = true;
-            this.GUISeparator2.Location = new System.Drawing.Point(6, 168);
+            this.GUISeparator2.Location = new System.Drawing.Point(6, 176);
             this.GUISeparator2.Name = "GUISeparator2";
             this.GUISeparator2.Size = new System.Drawing.Size(559, 13);
             this.GUISeparator2.TabIndex = 26;
@@ -404,6 +432,9 @@
         private System.Windows.Forms.TextBox DecryptInputFileField;
         private System.Windows.Forms.Label InputLabel;
         private System.Windows.Forms.Label OutputLabel;
+        private System.Windows.Forms.CheckBox EncB64;
+        private System.Windows.Forms.CheckBox DecB64;
+        private System.Windows.Forms.ToolTip HintTip;
     }
 }
 

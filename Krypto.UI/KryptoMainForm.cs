@@ -11,22 +11,23 @@ namespace Krypto.UI
 {
     public partial class KryptoMainForm : Form
     {
-        private const string ENCRYPTION_INPUT_PATH = @"msg\msg.txt";
-        private const string ENCRYPTION_OUTPUT_PATH = @"msg\encryptedmsg.txt";
+        private const string ENCRYPTION_INPUT_PATH = @"msg\msg";
+        private const string ENCRYPTION_OUTPUT_PATH = @"msg\encryptedmsg";
         private const string DECRYPTION_OUTPUT_PATH = @"msg\decryptedmsg";
-        
+        private readonly Base64Encoder b64 = new Base64Encoder('+', '/', true);
+        bool EncB64Enabled = false;
+        bool DecB64Enabled = false;
+        ToolTip tooltip = new ToolTip
+        {
+            AutoPopDelay = 5000,
+            InitialDelay = 1000,
+            ReshowDelay = 500
+        };
+
+
         public KryptoMainForm()
         {
             InitializeComponent();
-        }
-
-        private bool IsNumericInput(KeyPressEventArgs evt)
-        {
-            bool result = false;
-            if (!char.IsControl(evt.KeyChar) && !char.IsDigit(evt.KeyChar))
-                result = true;
-
-            return result;
         }
 
         public bool IsNumeric(string value)
@@ -40,7 +41,7 @@ namespace Krypto.UI
             {
                 Filter = "All Files (*.*)|*.*",
                 FilterIndex = 1,
-                Multiselect = true
+                Multiselect = false
             };
 
             string filename = "";
@@ -95,6 +96,108 @@ namespace Krypto.UI
             else AlphabetField1.ReadOnly = true;
         }
 
+        private bool IsNumericInput(KeyPressEventArgs evt)
+        {
+            bool result = false;
+            if (!char.IsControl(evt.KeyChar) && !char.IsDigit(evt.KeyChar))
+                result = true;
+
+            return result;
+        }
+
+        private void WriteText(string path, List<string> result)
+        {
+            StreamWriter streamwriter = new StreamWriter(path);
+            foreach (string item in result)
+            {
+                streamwriter.WriteLine(item);
+            }
+
+            streamwriter.Close();
+        }
+
+        private void WriteText(string path, string result)
+        {
+            StreamWriter streamwriter = new StreamWriter(path);
+            streamwriter.WriteLine(result);
+            streamwriter.Close();
+        }
+
+        private List<string> ReadText(string path)
+        {
+            List<string> input = new List<string>();
+            StreamReader streamreader = new StreamReader(path);
+
+            while (!streamreader.EndOfStream)
+            {
+                input.Add(streamreader.ReadLine());
+            }
+            streamreader.Close();
+
+            return input;
+        }
+
+        private string ReadTextStr(string path)
+        {
+            string str = "";
+
+            StreamReader streamreader = new StreamReader(path);
+
+            while (!streamreader.EndOfStream)
+            {
+                str += streamreader.ReadLine();
+            }
+            streamreader.Close();
+
+            return str;
+        }
+
+        private void Encrypt(BigInteger e, BigInteger n, string inputpath, string outputpath, bool b64enabled)
+        {
+            if (b64enabled)
+            {
+                string message = b64.ToBase(ReadBytes(inputpath));
+
+                List<string> result = RSACore.Encrypt(message, e, n);
+
+                WriteText(outputpath, result);
+            }
+            else
+            {
+                string message = "";
+
+                message = ReadTextStr(inputpath);
+
+                List<string> result = RSACore.Encrypt(message, e, n);
+
+                WriteText(outputpath, result);
+            }
+        }
+
+        private void Decrypt(BigInteger d, BigInteger n, string inputpath, string outputpath, bool b64enabled)
+        {
+            string decryptedmessage = "";
+            byte[] bytes;
+            List<string> encryptedmessage = new List<string>();
+
+            encryptedmessage = ReadText(inputpath);
+
+            decryptedmessage = RSACore.Decrypt(encryptedmessage, d, n);
+
+            if (b64enabled)
+            {
+                bytes = b64.FromBase(decryptedmessage);
+
+                WriteBytes(outputpath, bytes);
+            }
+            else
+            {
+                decryptedmessage = RSACore.Decrypt(encryptedmessage, d, n);
+
+                WriteText(outputpath, decryptedmessage);
+            }
+        }
+
         private void AlphabetField_TextChanged(object sender, EventArgs e)
         {
             RSACore.SetAlphabet(AlphabetField1.Text);
@@ -140,14 +243,20 @@ namespace Krypto.UI
             e.Handled = IsNumericInput(e);
         }
 
+        private void EncB64_CheckedChanged(object sender, EventArgs e)
+        {
+            EncB64Enabled = EncB64.Checked;
+        }
+
+        private void DecB64_CheckedChanged(object sender, EventArgs e)
+        {
+            DecB64Enabled = DecB64.Checked;
+        }
+
         private void EncryptButton_Click(object sender, EventArgs evt)
         {
             try
             {
-                string encryptedmessage = "";
-                BigInteger e = BigInteger.Parse(PublicKeyE.Text);
-                BigInteger n = BigInteger.Parse(PublicKeyN.Text);
-
                 if ((PublicKeyE.Text == "") || PublicKeyN.Text == "")
                 {
                     MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -158,23 +267,26 @@ namespace Krypto.UI
                 }
                 else
                 {
-                    Base64Encoder b64 = new Base64Encoder('+', '/', true);
-                    encryptedmessage = b64.ToBase(ReadBytes(EncryptInputFileField.Text));
-
-                    List<string> result = RSACore.Encrypt(encryptedmessage, e, n);
-
-                    StreamWriter streamwriter = new StreamWriter(EncryptOutputFileField.Text);
-                    foreach (string item in result)
+                    if (!File.Exists(EncryptInputFileField.Text))
                     {
-                        streamwriter.WriteLine(item);
+                        tooltip.Show("Couldn't find this file", EncryptInputFileField);
                     }
-
-                    streamwriter.Close();
+                    else if (!File.Exists(EncryptOutputFileField.Text))
+                    {
+                        tooltip.Show("Couldn't find this file", EncryptOutputFileField);
+                    }
+                    else
+                    {
+                        BigInteger e = BigInteger.Parse(PublicKeyE.Text);
+                        BigInteger n = BigInteger.Parse(PublicKeyN.Text);
+                        Encrypt(e, n, EncryptInputFileField.Text, EncryptOutputFileField.Text, EncB64Enabled);
+                    }
                 }
             }
             catch
             {
                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                throw;
             }
         }
 
@@ -195,35 +307,26 @@ namespace Krypto.UI
                 }
                 else
                 {
-                    byte[] bytes;
-                    string decryptedmessage;
-                    BigInteger d = BigInteger.Parse(PrivateKeyD.Text);
-                    BigInteger n = BigInteger.Parse(PrivateKeyN.Text);
-
-                    List<string> encryptedmessage = new List<string>();
-
-                    StreamReader streamreader = new StreamReader(DecryptInputFileField.Text);
-
-                    while (!streamreader.EndOfStream)
+                    if (!File.Exists(EncryptInputFileField.Text))
                     {
-                        encryptedmessage.Add(streamreader.ReadLine());
+                        tooltip.Show("Couldn't find this file", EncryptInputFileField);
                     }
-                    streamreader.Close();
-
-                    decryptedmessage = RSACore.Decrypt(encryptedmessage, d, n);
-
-                    Base64Encoder b64 = new Base64Encoder('+', '/', true);
-
-                    bytes = b64.FromBase(decryptedmessage);
-
-                    WriteBytes(DecryptOutputFileField.Text, bytes);
-
+                    else if ((!File.Exists(EncryptOutputFileField.Text)))
+                    {
+                        tooltip.Show("Couldn't find this file", EncryptOutputFileField);
+                    }
+                    else
+                    {
+                        BigInteger d = BigInteger.Parse(PrivateKeyD.Text);
+                        BigInteger n = BigInteger.Parse(PrivateKeyN.Text);
+                        Decrypt(d, n, DecryptInputFileField.Text, DecryptOutputFileField.Text, DecB64Enabled);
+                    }
                 }
-
             }
             catch
             {
                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                throw;
             }
 
         }
