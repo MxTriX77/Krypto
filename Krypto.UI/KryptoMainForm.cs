@@ -286,7 +286,6 @@ namespace Krypto.UI
             catch
             {
                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                throw;
             }
         }
 
@@ -294,9 +293,6 @@ namespace Krypto.UI
         {
             try
             {
-                BigInteger p = BigInteger.Parse(PrivateKeyD.Text);
-                BigInteger q = BigInteger.Parse(PrivateKeyN.Text);
-
                 if ((PrivateKeyD.Text == "") || PrivateKeyN.Text == "")
                 {
                     MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -326,7 +322,6 @@ namespace Krypto.UI
             catch
             {
                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                throw;
             }
 
         }
