@@ -66,6 +66,16 @@ namespace RSA.Core
             return ModularInverse(e, phi);
         }
 
+        public static BigInteger Modulus(BigInteger p, BigInteger q)
+        {
+            return p * q;
+        }
+
+        public static BigInteger EulersFunction(BigInteger p, BigInteger q)
+        {
+            return (p - 1) * (q - 1);
+        }
+
         public static bool IsPrime(BigInteger n)
         {
             if (n < 2) { return false; }
@@ -83,10 +93,10 @@ namespace RSA.Core
             BigInteger phi;
 
             // Calculating modulus.
-            n = p * q;
+            n = Modulus(p, q);
 
             // Calculating Euler's function.
-            phi = (p - 1) * (q - 1);
+            phi = EulersFunction(p, q);
 
             // Calculating public exponent.
             e = Calculate_e(phi);
@@ -112,8 +122,8 @@ namespace RSA.Core
 
         public static void GetEncryptionParameters(BigInteger p, BigInteger q, out BigInteger n, out BigInteger phi, out BigInteger d, out BigInteger e)
         {
-            n = p * q;
-            phi = (p - 1) * (q - 1);
+            n = Modulus(p, q);
+            phi = EulersFunction(p, q);
             e = Calculate_e(phi);
             d = Calculate_d(e, phi);
         }
