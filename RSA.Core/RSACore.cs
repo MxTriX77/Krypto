@@ -10,6 +10,7 @@ namespace RSA.Core
         private static string charset = @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяЄєҐґІЇїі01234567890123456789!?()'@&%$/\|<>*#^_[]{}`~+=-:;,.";
         private static long[] fermatnumbers = { 4294967297, 65537, 257, 17, 5, 3 };
 
+        // Euclidean algorithm.
         private static BigInteger GCD(BigInteger a, BigInteger b)
         {
             while (a != 0 && b != 0)
@@ -23,6 +24,9 @@ namespace RSA.Core
             return a == 0 ? b : a;
         }
 
+        // Modular multiplicative inversion, so that a = a^-1 (mod n).
+        // This method doesn't return a corresponding result in case there are no inverse elements of "a" in ring modulo "n".
+        // The reason is because within this project there won't be such a situation, so hence such a result won't be expected.
         private static BigInteger ModularInverse(BigInteger a, BigInteger n)
         {
             BigInteger i = n;
@@ -45,6 +49,7 @@ namespace RSA.Core
             return v;
         }
 
+        // Chooses higher possible fermat number as "e" parameter.
         private static BigInteger Calculate_e(BigInteger phi)
         {
             int index = 0;
@@ -77,7 +82,7 @@ namespace RSA.Core
         {
             BigInteger phi;
 
-            // Calculating modulo.
+            // Calculating modulus.
             n = p * q;
 
             // Calculating Euler's function.
