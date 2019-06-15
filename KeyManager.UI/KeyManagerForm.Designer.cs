@@ -55,9 +55,9 @@
             // KeyGenerationConsole
             // 
             this.KeyGenerationConsole.FormattingEnabled = true;
-            this.KeyGenerationConsole.Location = new System.Drawing.Point(3, 105);
+            this.KeyGenerationConsole.Location = new System.Drawing.Point(3, 92);
             this.KeyGenerationConsole.Name = "KeyGenerationConsole";
-            this.KeyGenerationConsole.Size = new System.Drawing.Size(300, 121);
+            this.KeyGenerationConsole.Size = new System.Drawing.Size(300, 134);
             this.KeyGenerationConsole.TabIndex = 5;
             this.KeyGenerationConsole.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyGenerationConsole_KeyDown);
             // 

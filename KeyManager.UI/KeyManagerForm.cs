@@ -20,6 +20,8 @@ namespace KeyManager.UI
 
         private void GenerateKeysButton_Click(object sender, EventArgs evt)
         {
+            String publickey;
+            String privatekey;
             try
             {
                 BigInteger p = BigInteger.Parse(TextBoxP.Text);
@@ -41,14 +43,17 @@ namespace KeyManager.UI
                 {
                     KeyGenerationConsole.Items.Clear();
                     RSACore.GetEncryptionParameters(p, q, out BigInteger n, out BigInteger phi, out BigInteger d, out BigInteger e);
+                    publickey = $"PUBLIC KEY (e, n): ({e}, {n})";
+                    privatekey = $"PRIVATE KEY (d, n): ({d}, {n})";
                     KeyGenerationConsole.Items.Add($"p = {p}, q = {q}");
                     KeyGenerationConsole.Items.Add($"Modulo: n = {n}");
                     KeyGenerationConsole.Items.Add($"Euler's function: ф(n) = {phi}");
                     KeyGenerationConsole.Items.Add($"Public exponent: e = {e}");
                     KeyGenerationConsole.Items.Add($"Private exponent: d = {d}");
                     KeyGenerationConsole.Items.Add("-------------------------------------------------------------------------------------------");
-                    KeyGenerationConsole.Items.Add($"PUBLIC KEY (e, n): ({e}, {n})");
-                    KeyGenerationConsole.Items.Add($"PRIVATE KEY (d, n): ({d}, {n})");
+                    KeyGenerationConsole.Items.Add(publickey);
+                    KeyGenerationConsole.Items.Add(privatekey);
+                    Clipboard.SetText($"{publickey}\r\n{privatekey}");
                 }
             }
             catch
