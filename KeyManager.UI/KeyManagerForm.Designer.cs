@@ -114,7 +114,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "KeyManagerMainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Krypto Key Manager";
             this.KryptoKeyManagerPanel.ResumeLayout(false);
             this.KryptoKeyManagerPanel.PerformLayout();

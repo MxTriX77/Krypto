@@ -11,11 +11,11 @@ namespace KeyManager.UI
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            if (!File.Exists(@"lib\RSA.Core.dll"))
+            if (!File.Exists($@"{args[0]}\bin\lib\RSA.Core.dll"))
             { 
-                MessageBox.Show("RSA.Core.dll wasn't found!", "Initialization error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($@"{args[0]}\bin\lib\RSA.Core.dll wasn't found!", "Initialization error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
             else

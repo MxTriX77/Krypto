@@ -11,9 +11,9 @@ namespace Krypto.UI
 {
     public partial class KryptoMainForm : Form
     {
-        private const string ENCRYPTION_INPUT_PATH = @"msg\msg";
-        private const string ENCRYPTION_OUTPUT_PATH = @"msg\encryptedmsg";
-        private const string DECRYPTION_OUTPUT_PATH = @"msg\decryptedmsg";
+        private readonly string ENCRYPTION_INPUT_PATH;
+        private readonly string ENCRYPTION_OUTPUT_PATH;
+        private readonly string DECRYPTION_OUTPUT_PATH;
         private readonly Base64Encoder b64 = new Base64Encoder('+', '/', true);
         bool EncB64Enabled = false;
         bool DecB64Enabled = false;
@@ -24,10 +24,12 @@ namespace Krypto.UI
             ReshowDelay = 500
         };
 
-
-        public KryptoMainForm()
+        public KryptoMainForm(string workspace)
         {
             InitializeComponent();
+            ENCRYPTION_INPUT_PATH = $@"{workspace}\msg\message";
+            ENCRYPTION_OUTPUT_PATH = $@"{workspace}\msg\encryptedmsg";
+            DECRYPTION_OUTPUT_PATH = $@"{workspace}\msg\decryptedmsg";
         }
 
         public bool IsNumeric(string value)
@@ -258,6 +260,7 @@ namespace Krypto.UI
         {
             BigInteger e;
             BigInteger n;
+
             try
             {
                 if ((PublicKeyE.Text == "") || PublicKeyN.Text == "")

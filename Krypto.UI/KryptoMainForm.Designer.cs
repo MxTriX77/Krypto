@@ -388,7 +388,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "KryptoMainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Krypto";
             this.Load += new System.EventHandler(this.KryptoMainForm_Load);
             this.TabControl.ResumeLayout(false);
