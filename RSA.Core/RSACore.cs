@@ -138,10 +138,11 @@ namespace RSA.Core
                 BigInteger M;
                 BigInteger Me;
                 BigInteger C;
+                int index;
 
                 for (int i = 0; i < message.Length; i++)
                 {
-                    int index = KMPCore.Search(Char.ToString(message[i]), charset);
+                    index = KMPCore.Search(Char.ToString(message[i]), charset);
                     M = new BigInteger(index);
 
                     // Encryption: C[i] = M[i]^e (mod n).

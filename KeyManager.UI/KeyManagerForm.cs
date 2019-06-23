@@ -20,16 +20,18 @@ namespace KeyManager.UI
 
         private void GenerateKeysButton_Click(object sender, EventArgs evt)
         {
-            String publickey;
-            String privatekey;
+            string publickey;
+            string privatekey;
+            BigInteger p;
+            BigInteger q;
             try
             {
-                BigInteger p = BigInteger.Parse(TextBoxP.Text);
-                BigInteger q = BigInteger.Parse(TextBoxQ.Text);
+                p = BigInteger.Parse(TextBoxP.Text);
+                q = BigInteger.Parse(TextBoxQ.Text);
 
                 if ((TextBoxP.Text == "") || TextBoxQ.Text == "")
                 {
-                    MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Please specify both p and q parameters and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else if (!IsNumeric(TextBoxP.Text) || !IsNumeric(TextBoxQ.Text))
                 {
@@ -46,7 +48,7 @@ namespace KeyManager.UI
                     publickey = $"PUBLIC KEY (e, n): ({e}, {n})";
                     privatekey = $"PRIVATE KEY (d, n): ({d}, {n})";
                     KeyGenerationConsole.Items.Add($"p = {p}, q = {q}");
-                    KeyGenerationConsole.Items.Add($"Modulo: n = {n}");
+                    KeyGenerationConsole.Items.Add($"Modulus: n = {n}");
                     KeyGenerationConsole.Items.Add($"Euler's function: ф(n) = {phi}");
                     KeyGenerationConsole.Items.Add($"Public exponent: e = {e}");
                     KeyGenerationConsole.Items.Add($"Private exponent: d = {d}");
@@ -54,11 +56,12 @@ namespace KeyManager.UI
                     KeyGenerationConsole.Items.Add(publickey);
                     KeyGenerationConsole.Items.Add(privatekey);
                     Clipboard.SetText($"{publickey}\r\n{privatekey}");
+                    MessageBox.Show("Key pairs have been successfully generated and copied to clipboard.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch
             {
-                MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("An error occured. Please check whether the filled in data are correct and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 

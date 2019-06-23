@@ -38,10 +38,10 @@
             int[] LPS = new int[M];
             int j = 0;
             int result = -1;
+            int i = 0;
 
             Prefix(needle, M, LPS);
 
-            int i = 0;
             while (i < N)
             {
                 if (needle[j] == haystack[i])
