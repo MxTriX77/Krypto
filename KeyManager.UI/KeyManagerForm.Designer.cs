@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyManagerMainForm));
             this.KryptoKeyManagerPanel = new System.Windows.Forms.Panel();
             this.KeyGenerationConsole = new System.Windows.Forms.ListBox();
             this.TextBoxQ = new System.Windows.Forms.TextBox();
@@ -112,6 +113,7 @@
             this.ClientSize = new System.Drawing.Size(314, 269);
             this.Controls.Add(this.KryptoKeyManagerPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "KeyManagerMainForm";
             this.Text = "Krypto Key Manager";

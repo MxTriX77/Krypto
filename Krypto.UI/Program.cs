@@ -18,19 +18,19 @@ namespace Krypto.UI
 
             if (!File.Exists($@"{args[0]}\bin\lib\RSA.Core.dll"))
             {
-                missinglibs += $@"\n{args[0]}\bin\lib\RSA.Core.dll";
+                missinglibs += $@"{Environment.NewLine}{args[0]}\bin\lib\RSA.Core.dll";
                 missingflag = true;
             }
 
             if (!File.Exists($@"{args[0]}\bin\lib\KMP.Core.dll"))
             {
-                missinglibs += $@"\n{args[0]}\bin\lib\KMP.Core.dll";
+                missinglibs += $@"{Environment.NewLine}{args[0]}\bin\lib\KMP.Core.dll";
                 missingflag = true;
             }
 
             if (!File.Exists($@"{args[0]}\bin\lib\Base64.Core.dll"))
             {
-                missinglibs += $@"\n{args[0]}\bin\lib\Base64.Core.dll";
+                missinglibs += $@"{Environment.NewLine}{args[0]}\bin\lib\Base64.Core.dll";
                 missingflag = true;
             }
 

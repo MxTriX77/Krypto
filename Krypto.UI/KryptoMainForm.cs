@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Krypto.UI
@@ -179,7 +180,6 @@ namespace Krypto.UI
             if (b64enabled)
             {
                 bytes = b64.FromBase(decryptedmessage);
-
                 WriteBytes(outputpath, bytes);
             }
             else
@@ -305,7 +305,6 @@ namespace Krypto.UI
             {
                 MessageBox.Show("An error occured. Please check whether the filled in data are coorect and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
 
     }

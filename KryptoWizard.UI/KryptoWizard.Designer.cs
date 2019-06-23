@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KryptoWizardWindow));
             this.StepOneLabel = new System.Windows.Forms.Label();
             this.StepTwoLabel = new System.Windows.Forms.Label();
             this.KeyManagerLauncher = new System.Windows.Forms.Button();
@@ -82,6 +83,7 @@
             this.Controls.Add(this.StepTwoLabel);
             this.Controls.Add(this.StepOneLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "KryptoWizardWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
