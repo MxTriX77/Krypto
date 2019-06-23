@@ -1,5 +1,6 @@
 ﻿namespace Base64.Core
 {
+
     public class Base64Encoder : BaseEncoder
     {
         const string CharacterSetBase = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

@@ -28,8 +28,8 @@ namespace Krypto.UI
         {
             InitializeComponent();
             ENCRYPTION_INPUT_PATH = $@"{workspace}\msg\message";
-            ENCRYPTION_OUTPUT_PATH = $@"{workspace}\msg\encryptedmsg";
-            DECRYPTION_OUTPUT_PATH = $@"{workspace}\msg\decryptedmsg";
+            ENCRYPTION_OUTPUT_PATH = $@"{workspace}\msg\encrypted_message";
+            DECRYPTION_OUTPUT_PATH = $@"{workspace}\msg\decrypted_message";
         }
 
         public bool IsNumeric(string value)
@@ -49,9 +49,7 @@ namespace Krypto.UI
             string filename = "";
 
             if (fdialog.ShowDialog() == DialogResult.OK)
-            {
                 filename = fdialog.FileName;
-            }
 
             return filename;
         }
@@ -64,6 +62,7 @@ namespace Krypto.UI
                 buffer = new byte[fs.Length];
                 fs.Read(buffer, 0, (int)fs.Length);
             }
+
             return buffer;
         }
 
@@ -74,19 +73,14 @@ namespace Krypto.UI
                 fs.Write(bytearray, 0, bytearray.Length);
                 return true;
             }
-
         }
 
         private void KryptoMainForm_Load(object sender, EventArgs e)
         {
-            FileInfo encryptioninput = new FileInfo(ENCRYPTION_INPUT_PATH);
-            FileInfo encryptionoutput = new FileInfo(ENCRYPTION_OUTPUT_PATH);
-            FileInfo decryptioninput = new FileInfo(ENCRYPTION_OUTPUT_PATH);
-            FileInfo decryptionoutput = new FileInfo(DECRYPTION_OUTPUT_PATH);
-            EncryptInputFileField.Text = encryptioninput.FullName;
-            EncryptOutputFileField.Text = encryptionoutput.FullName;
-            DecryptInputFileField.Text = decryptioninput.FullName;
-            DecryptOutputFileField.Text = decryptionoutput.FullName;
+            EncryptInputFileField.Text = ENCRYPTION_INPUT_PATH;
+            EncryptOutputFileField.Text = ENCRYPTION_OUTPUT_PATH;
+            DecryptInputFileField.Text = ENCRYPTION_OUTPUT_PATH;
+            DecryptOutputFileField.Text = DECRYPTION_OUTPUT_PATH;
             AlphabetField1.Text = RSACore.GetAlphabet();
             AlphabetField2.Text = RSACore.GetAlphabet();
         }
@@ -112,9 +106,7 @@ namespace Krypto.UI
         {
             StreamWriter streamwriter = new StreamWriter(path);
             foreach (string item in result)
-            {
                 streamwriter.WriteLine(item);
-            }
 
             streamwriter.Close();
         }
@@ -132,9 +124,7 @@ namespace Krypto.UI
             StreamReader streamreader = new StreamReader(path);
 
             while (!streamreader.EndOfStream)
-            {
                 input.Add(streamreader.ReadLine());
-            }
             streamreader.Close();
 
             return input;
@@ -147,9 +137,8 @@ namespace Krypto.UI
             StreamReader streamreader = new StreamReader(path);
 
             while (!streamreader.EndOfStream)
-            {
                 str += streamreader.ReadLine();
-            }
+
             streamreader.Close();
 
             return str;
@@ -263,24 +252,16 @@ namespace Krypto.UI
 
             try
             {
-                if ((PublicKeyE.Text == "") || PublicKeyN.Text == "")
-                {
+                if ((PublicKeyE.Text == "") || (PublicKeyN.Text == ""))
                     MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
                 else if (!IsNumeric(PrivateKeyD.Text) || !IsNumeric(PrivateKeyN.Text))
-                {
                     MessageBox.Show("Non-numeric input detected! Please double-check and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
                 else
                 {
                     if (!File.Exists(EncryptInputFileField.Text))
-                    {
                         tooltip.Show("Couldn't find this file", EncryptInputFileField);
-                    }
                     else if (!File.Exists(EncryptOutputFileField.Text))
-                    {
                         tooltip.Show("Couldn't find this file", EncryptOutputFileField);
-                    }
                     else
                     {
                         e = BigInteger.Parse(PublicKeyE.Text);
@@ -297,30 +278,25 @@ namespace Krypto.UI
 
         private void DecryptButton_Click(object sender, EventArgs e)
         {
+            BigInteger d;
+            BigInteger n;
+
             try
             {
-                if ((PrivateKeyD.Text == "") || PrivateKeyN.Text == "")
-                {
+                if ((PrivateKeyD.Text == "") || (PrivateKeyN.Text == ""))
                     MessageBox.Show("Please specify both p and q and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
                 else if (!IsNumeric(PrivateKeyD.Text) || !IsNumeric(PrivateKeyN.Text))
-                {
                     MessageBox.Show("Non-numeric input detected! Please double-check and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
                 else
                 {
                     if (!File.Exists(EncryptInputFileField.Text))
-                    {
                         tooltip.Show("Couldn't find this file", EncryptInputFileField);
-                    }
                     else if ((!File.Exists(EncryptOutputFileField.Text)))
-                    {
                         tooltip.Show("Couldn't find this file", EncryptOutputFileField);
-                    }
                     else
                     {
-                        BigInteger d = BigInteger.Parse(PrivateKeyD.Text);
-                        BigInteger n = BigInteger.Parse(PrivateKeyN.Text);
+                        d = BigInteger.Parse(PrivateKeyD.Text);
+                        n = BigInteger.Parse(PrivateKeyN.Text);
                         Decrypt(d, n, DecryptInputFileField.Text, DecryptOutputFileField.Text, DecB64Enabled);
                     }
                 }

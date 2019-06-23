@@ -56,7 +56,7 @@ namespace KeyManager.UI
                     KeyGenerationConsole.Items.Add(publickey);
                     KeyGenerationConsole.Items.Add(privatekey);
                     Clipboard.SetText($"{publickey}\r\n{privatekey}");
-                    MessageBox.Show("Key pairs have been successfully generated and copied to clipboard.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Key pairs have been successfully generated and copied to clipboard. \nWarning: do not disclose the private key to any third-parties.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch

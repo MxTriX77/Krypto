@@ -84,8 +84,10 @@ namespace RSA.Core
         {
             if (n < 2)
                 return false;
+
             if (n == 2)
                 return true;
+
             for (ulong i = 2; i < n; i++)
             {
                 if (n % i == 0)
@@ -111,9 +113,9 @@ namespace RSA.Core
             // Calculating private exponent.
             d = Calculate_d(e, phi);
 
-            /* Hence we have 2 pairs of keys:
-                (e, n) - public key
-                (d, n) - private key
+            /* Thereby, we have 2 pairs of keys:
+                (e, n) - public key;
+                (d, n) - private key.
              */
         }
 
@@ -159,6 +161,7 @@ namespace RSA.Core
                     C = Me % n;
                     result.Add(C.ToString());
                 }
+
                 return result;
             }
         }

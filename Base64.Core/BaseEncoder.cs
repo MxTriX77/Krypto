@@ -1,5 +1,6 @@
 ﻿namespace Base64.Core
 {
+
     public class BaseEncoder
     {
         const char PaddingChar = '=';
