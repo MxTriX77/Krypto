@@ -93,7 +93,8 @@ namespace Krypto.UI
         {
             if (AlphabetCheckBox.Checked == true)
                 AlphabetField1.ReadOnly = false;
-            else AlphabetField1.ReadOnly = true;
+            else
+                AlphabetField1.ReadOnly = true;
         }
 
         private bool IsNumericInput(KeyPressEventArgs evt)
@@ -255,6 +256,8 @@ namespace Krypto.UI
 
         private void EncryptButton_Click(object sender, EventArgs evt)
         {
+            BigInteger e;
+            BigInteger n;
             try
             {
                 if ((PublicKeyE.Text == "") || PublicKeyN.Text == "")
@@ -277,8 +280,8 @@ namespace Krypto.UI
                     }
                     else
                     {
-                        BigInteger e = BigInteger.Parse(PublicKeyE.Text);
-                        BigInteger n = BigInteger.Parse(PublicKeyN.Text);
+                        e = BigInteger.Parse(PublicKeyE.Text);
+                        n = BigInteger.Parse(PublicKeyN.Text);
                         Encrypt(e, n, EncryptInputFileField.Text, EncryptOutputFileField.Text, EncB64Enabled);
                     }
                 }

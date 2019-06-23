@@ -44,7 +44,8 @@ namespace RSA.Core
                 v = x;
             }
             v %= n;
-            if (v < 0) { v = (v + n) % n; }
+            if (v < 0)
+                v = (v + n) % n;
 
             return v;
         }
@@ -55,7 +56,10 @@ namespace RSA.Core
             int index = 0;
             while (index < fermatnumbers.Length)
             {
-                if (fermatnumbers[index] < phi && GCD(fermatnumbers[index], phi) == 1) { break; } else index++;
+                if (fermatnumbers[index] < phi && GCD(fermatnumbers[index], phi) == 1)
+                    break;
+                else
+                    index++;
             }
 
             return fermatnumbers[index];
@@ -78,11 +82,14 @@ namespace RSA.Core
 
         public static bool IsPrime(BigInteger n)
         {
-            if (n < 2) { return false; }
-            if (n == 2) { return true; }
+            if (n < 2)
+                return false;
+            if (n == 2)
+                return true;
             for (ulong i = 2; i < n; i++)
             {
-                if (n % i == 0) { return false; }
+                if (n % i == 0)
+                    return false;
             }
 
             return true;
@@ -112,7 +119,8 @@ namespace RSA.Core
 
         public static void SetAlphabet(string alphabet)
         {
-            if (alphabet.Length != 0) { charset = alphabet; }
+            if (alphabet.Length != 0)
+                charset = alphabet;
         }
 
         public static string GetAlphabet()
@@ -131,7 +139,8 @@ namespace RSA.Core
         public static List<string> Encrypt(string message, BigInteger e, BigInteger n)
         {
             // If either p or q is not a prime number, then RSA is not applicable.
-            if ((!IsPrime(e) && !IsPrime(e)) || message == "") { return null; }
+            if ((!IsPrime(e) && !IsPrime(e)) || message == "")
+                return null;
             else
             {
                 List<string> result = new List<string>();
